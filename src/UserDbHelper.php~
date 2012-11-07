@@ -1,0 +1,73 @@
+<?php
+	require_once("User.php");
+		
+		class UserDbHelper {
+			
+		private $dbg;
+		private $mysqli;
+		private $infoUser = array();
+		
+		function __construct(){
+			require_once('../db/conexion.php');
+			global $debug;			
+			$this->dbg = $debug;
+			$this->mysqli = $mysqli;
+		}
+										
+	
+		function GetLogin($name, $pass) {					
+			
+			$result = $this->mysqli->query("SELECT COUNT(*) AS resultado FROM Users WHERE Uname = '".$name."' AND Password = '".$pass."'");
+
+			if (!$result) {
+				if ($dbg) die($mysqli->error);
+				else return -1;						
+			}
+			
+			if ($result->num_rows == 1) return 0;
+			else return -1;
+		}
+		
+		function GetUserInfo($name) {
+
+			
+			$result = $this->mysqli->query("SELECT Mail, Level, ID resultado FROM Users WHERE Uname = '".$name."'");
+			if (!$result) {
+				if ($dbg) die($mysqli->error);
+				else return -1; 			
+			}
+			
+			if ($result->num_rows == 1){
+				$res = $result->fetch_assoc();
+				
+				$infoUser['nickname'] 	= $name;
+				$infoUser['mail'] 		= $res['Mail'];
+				$infoUser['level'] 		= $res['Level'];
+				
+				$result2 = $mysqli->query("SELECT * FROM User-Sport WHERE Uid=".$res['ID']);
+				$deportes = array();
+				
+				for ($i = 0; $i < ($result2->num_rows); ++$i){
+					$res2 = $result2->fetch_assoc();
+					$deportes[] = $res['Sid'];
+				}
+				
+				$infouser['deportes'] = $deportes;			
+				return $infoUser;
+			}			
+			else return -1;
+		}
+				
+		function CreateUser($nickname, $password, $deportes, $level, $mail) {
+			$sql = "INSERT INTO Users VALUES (NULL, '".$nickname."', '".$password."', '".$mail."', ".$level.")";
+			$mysqli->query($sql);
+			$uid = $mysqli->id;
+			for ($i = 0; $i < sizeof($deportes); ++$i) {
+				$sql2 = "INSERT INTO User-Sport VALUES (".$uid.", ".$deportes[$i].")";
+				$mysqli->query($sql2);
+			}
+			return $uid;
+		}
+	}
+
+?>

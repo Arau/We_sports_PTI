@@ -1,0 +1,41 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h3>Registrar Evento</h3>
+        <form name="form3" method="post" 
+            action="insertar_evento.php?">
+          <p>Nombre del evento:<br>
+            <input type="text" name="name">
+          </p>
+          <p>Ruta<br>
+              <form>
+                <SELECT NAME="urldestino">
+                <option selected>--- Selecciona una ruta ---
+                <option value="inicio.html" >Inicio
+                <option value="seccion1.html">Album de fotos
+                <option value="seccion2.html">Textos interesantes
+                <option value="seccion3.html">Noticias
+                <option value="seccion4.html">Novedades
+                <option value="seccion5.html">Mi diario
+                </SELECT>
+                <input type="button" value="IR" onClick="location=this.form.urldestino.value" name="button">
+                </form>
+            <input type="text" name="ruta">
+          </p>
+          <p>Descripcion del evento:<br>
+            <input type="text" name="descripcion">
+          </p>
+          <p>
+            <input type="submit" name="Submit" value="Enviar">
+          </p>
+        </form>
+    </body>
+</html>

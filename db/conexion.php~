@@ -1,0 +1,9 @@
+<?php		
+		
+		require_once("/homepages/6/d434798839/htdocs/fands/public_html/conf.php");	
+		$mysqli = new mysqli($dbconfig["db_server"], $dbconfig["db_username"], $dbconfig["db_password"], $dbconfig["db_name"],$dbconfig["db_port"]);
+		if ($mysqli->connect_errno) {
+			printf("Connect failed: %s\n", $mysqli->connect_error);
+		exit();
+		}
+?>

@@ -1,0 +1,41 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Registrar</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h3>Registrar Usuario</h3>
+        <form name="form1" method="post" 
+            action="insertar_user.php?">
+          <p>Nombre:<br>
+            <input type="text" name="nombre">
+          </p>
+          <p>Password:<br>
+            <input type="text" name="password">
+          </p>
+          <p>Mail:<br>
+            <input type="text" name="mail">
+          </p>
+          <p>Nivel:<br>
+              <SELECT name="form_level">
+                <option selected>--- Elige tu nivel fisico ---
+                <option>Principiante</option>
+                <option>Medio</option>
+                <option>Pro</option>
+              </SELECT>
+          </p>
+          <p>Deportes: </p>
+          <input type="checkbox" name="running"> Running<br>
+          <input type="checkbox" name="ciclismo"> Ciclismo<br>
+          <input type="checkbox" name="patinaje"> Patinaje<br>
+          <p>
+            <input type="submit" name="Submit" value="Enviar">
+          </p>
+        </form>
+    </body>
+</html>

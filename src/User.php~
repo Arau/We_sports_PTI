@@ -1,0 +1,40 @@
+<?php
+	require_once("UserDbHelper.php");
+	class User {
+
+		private	$userDbHelper;
+		private $nickname;
+		public $deportes = array(); // array de deporte_asignado con su nivel --> (running, roller, cciclismo)
+		public $mail;
+		public $level;
+	
+		function __construct($nickname) {	
+			$this->userDbHelper = new UserDbHelper();
+			$user_info = $this->userDbHelper->GetUserInfo($nickname); 
+			$this->nickname = $user_info['nickname'];
+			$this->deportes= $user_info['deportes'];
+			$this->mail = $user_info['mail'];
+			$this->level = $user_info['level'];
+		}
+		
+		function CreateUser($nickname, $password, $deportes, $level, $mail) {
+			$userDbHelper->CreateUser($nickname, $password, $deportes, $level, $mail);
+		}
+		
+		function Login($passw){
+			return $this->userDbHelper->GetLogin($this->nickname,$passw);
+		}
+		
+		function GetNickname() {
+			return $this->nickname;
+		}
+		
+		function GetDeportes() {
+			return $this->deportes;
+		}
+		
+		function GetMail() {
+			return $this->mail;
+		}				
+	}
+?>

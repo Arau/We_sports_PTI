@@ -15,7 +15,7 @@
 			});
 		</script>";
 
-	$login_layout = print_loggin_layout(0);
+	$login_layout = print_loggin_layout();
 	$navBars = ' 
 	<div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
