@@ -14,21 +14,45 @@ function print_loggin_layout() {
 		
 		<form class="form-horizontal" method="post" action="">
 		  <div class="control-group">
+		     <label class="control-label">Name</label>
+		    	<div class="controls"> 
+    				<input type="text" id="name_reg" placeholder="Name">
+    			</div>
+		  </div>
+		  <div class="control-group">
 		    <label class="control-label" for="inputEmail">Email</label>
 		    <div class="controls">
-		      <input type="text" id="inputEmail" placeholder="Email">
+		      <input type="text" id="mail_reg" placeholder="Email">
 		    </div>
 		  </div>
 		  <div class="control-group">
 		    <label class="control-label" for="inputPassword">Password</label>
 		    <div class="controls">
-		      <input type="password" id="inputPassword" placeholder="Password">
-		    </div>
+		      <input type="password" id="pwd_reg" placeholder="Password">
+		  	</div>
+		  </div>		  
+		  <div class="control-group">
+		  	  <label class="control-label">Sport</label>
+		  	  <div class="controls">
+				  <div class="btn-group" data-toggle="buttons-checkbox">
+					  <button id="t" onclick="cycl()" type="button" class="btn btn-small btn-info">Cycling</button>
+					  <button onclick="roller()" type="button" class="btn btn-small btn-info">Roller</button>
+					  <button onclick="running()" type="button" class="btn btn-small btn-info">Running</button>
+				  </div>
+			  </div>
 		  </div>
-		  
+		  <div class="control-group">
+		  	  <label class="control-label">Sport Level</label>
+		  	  <div class="controls">
+				  <div class="btn-group" data-toggle="buttons-radio">
+					  <button onclick="beginer()" type="button" class="btn btn-small">Beginer</button>
+					  <button onclick="amateur()" type="button" class="btn btn-small">Amateur</button>
+					  <button onclick="expert()" type="button" class="btn btn-small">Expert</button>
+				  </div>
+			  </div>
+		  </div>
 		</form>';
 	
-
 		$layout = '
 
 			<li style=" margin-top:-11px; margin-right:6px">											
@@ -44,8 +68,8 @@ function print_loggin_layout() {
 					<div class="modal-footer">
 						<div class="control-group">
 						    <div class="controls">
-						      	<button class="btn"> Cancel </button>
-						      	<button type="submit" class="btn btn-success">Register</button>
+						      	<button onclick="closeRegister()" class="btn"> Cancel </button>
+						      	<button onclick="submitRegister()" type="submit" class="btn btn-success">Register</button>
 						    </div>
 						  </div>
 					</div>

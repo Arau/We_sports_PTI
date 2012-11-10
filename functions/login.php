@@ -20,9 +20,11 @@
 			
 		$user_instance = new User($nickname);									
 		$crypt_passwd = hash('sha512',$passwd);		
+
+
 		$login = $user_instance->GetLogin($nickname, $crypt_passwd);
 		
-		if ($login == 1) {
+		if ($login == 0) {
 			$_SESSION['user'] = $nickname;	
 			$_SESSION['logged'] = 1;						
 		}

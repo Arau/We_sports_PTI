@@ -11,7 +11,7 @@
       $deportes = array($running, $ciclismo , $patinar);
                    
       include"conexion.php";
-      $sql = "INSERT INTO users (ID, Uname, Password, Mail, Level) VALUES ('NULL', '$nickname', '$password', '$mail', $level)";
+      $sql = "INSERT INTO Users (ID, Uname, Password, Mail, Level) VALUES ('NULL', '$nickname', '$password', '$mail', $level)";
       mysql_query($sql) or die(mysql_error());
       $result2 = mysql_query("SELECT ID FROM users WHERE Uname = '$nickname'") or die(mysql_error()); //extraemos el ID del usuario
       /*while ($row = mysql_fetch_row($result2)) {

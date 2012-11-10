@@ -12,7 +12,7 @@ class User {
 
     function __construct($nickname) {
         $this->nickname = $nickname;
-        GetUserInfo($nickname);            
+        $this->GetUserInfo($nickname);            
     }
     
     function GetLogin($nickname, $password) {
