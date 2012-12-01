@@ -1,7 +1,6 @@
 <?php
 
-	require_once('../src/User.php');
-	
+	require_once('../src/User.php');	
 	$lifetime = 7200;
 	if (isset($_POST['user']['remember_me'])) {
 		$lifetime *= 12;
@@ -26,10 +25,11 @@
 		
 		if ($login == 0) {
 			$_SESSION['user'] = $nickname;	
-			$_SESSION['logged'] = 1;						
+			$_SESSION['logged'] = 1;
+			header( 'Location: http://friendsandsport.com/views/userpage.php');
 		}
 		else {
-			
+			header( 'Location: http://friendsandsport.com/index.php?log=0') ;
 		}
 	}					
 	

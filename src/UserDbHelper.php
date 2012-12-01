@@ -6,23 +6,28 @@
  */
    
 
-    function CreateUserBD($nickname, $password, $mail, $level, $running, $ciclismo, $patinar) {
+    function CreateUserBD($nickname, $password, $mail, $running, $ciclismo, $patinar) {
       //echo "entro en dbhelper";
       $deportes = array($running, $ciclismo , $patinar);
                    
       include"conexion.php";
-      $sql = "INSERT INTO Users (ID, Uname, Password, Mail, Level) VALUES ('NULL', '$nickname', '$password', '$mail', $level)";
-      mysql_query($sql) or die(mysql_error());
-      $result2 = mysql_query("SELECT ID FROM users WHERE Uname = '$nickname'") or die(mysql_error()); //extraemos el ID del usuario
+      $sqli = "INSERT INTO Users (ID, Uname, Password, Mail) VALUES ('NULL', '$nickname', '$password', '$mail')";
+      $mysqli->query($sqli) or die($mysqli->error);
+      $result2 = $mysqli->query("SELECT ID FROM Users WHERE Uname = '$nickname'") or die($mysqli->error); //extraemos el ID del usuario
       /*while ($row = mysql_fetch_row($result2)) {
         echo $row[0];
       }*/
-      $aux = mysql_fetch_row($result2);
+      $aux = $result2->fetch_row();
+      //$aux = mysqli_fetch_row($result2);
       
       for ($i=0; $i < sizeof($deportes); ++$i) { // buscamos el ID de usuario en la tabla de usersport
-          if ($deportes[$i] == "on") {
-            $sql2 = "INSERT INTO usersport (Uid, Sid) VALUES ($aux[0], ($i+1))";
-            mysql_query($sql2) or die(mysql_error());  
+          if ($deportes[$i][0] == "on") {
+            if($deportes[$i][1] == "Principiante") $level = 1;
+            else if ($deportes[$i][1] == "Medio") $level = 2;
+            else $level = 3;
+          
+            $sqli2 = "INSERT INTO usersport (Uid, Sid, Level) VALUES ($aux[0], ($i+1), $level)";
+            $mysqli->query($sqli2) or die($mysqli->error);  
         }
       }
      
@@ -35,23 +40,17 @@
      function GetLoginDb($nickname, $password) {
         
         include"conexion.php";
-        $sql = "SELECT COUNT(*) FROM users WHERE Uname = '$nickname' AND Password = '$password'";
-        $result = mysql_query($sql) or die(mysql_error());
-        //$num_filas= mysql_num_rows($result); 
-        try{
-            if(mysql_result($result,0)) {
-            $comprobar = mysql_result($result, 0);
-            //echo $result;
-                //echo "Usuario validado correctamente";
-                /*$aux2 = mysql_fetch_row($result);
-                echo $aux2[0]," , ";
-                echo $aux2[1]," , ";
-                echo $aux2[3], " , ";
-                echo $aux2[4], " . ";*/
+        $sqli = "SELECT COUNT(*) as total FROM Users WHERE Uname = '$nickname' AND Password = '$password'";        
+        $result = $mysqli->query($sqli) or die($mysqli_error);        
+        $fetch = $result->fetch_assoc();
+        $logged = intval($fetch["total"]);
+        try{   
+
+            if($logged == 1) {
                 include "cerrar_conexion.php";
                 return 0;
-                      
-            }else {
+            }
+            else {
                 include "cerrar_conexion.php";
                 return -1;
             }
@@ -66,27 +65,42 @@
         $user = array(); //new User($nickname);
         //$nickname = $_POST["nombre"];
         include"conexion.php";
-        $result = mysql_query("SELECT * FROM users WHERE Uname = '$nickname'") or die (mysql_error()); 
-        $aux = mysql_num_rows($result);
+        $result = $mysqli->query("SELECT * FROM Users WHERE Uname = '$nickname'") or die (mysqli_error); 
+        $aux = $result->num_rows;
         if ($aux == 1){
-            $res = mysql_fetch_assoc($result);
+            $res = $result->fetch_assoc();
             $user[0] =$nickname;
             $user[1] = $res['Mail'];
-            $user[2] = $res['Level'];
+            $user[2] = $res['ID'];
             $ID_user = $res['ID'];
-            $result2 = mysql_query("SELECT * FROM usersport WHERE Uid = $ID_user") or die (mysql_error()); 
-            $aux = mysql_num_rows($result2);
+            $result2 = $mysqli->query("SELECT * FROM usersport WHERE Uid = $ID_user") or die (mysqli_error()); 
+            $aux = $result2->num_rows;
             if ($aux > 0) {
                 $i = 3;
-                while ($res2 =mysql_fetch_assoc($result2)) {
+                while ($res2 = $result2->fetch_assoc()) {
                     $user[$i] = $res2['Sid'];
-                    ++$i;
-                    /*echo $res2['Uid'], " ->";
-                    echo $res2['Sid'], " , ";*/
+                    $user[$i+1] = $res2['Level'];
+                    $i = $i +2;
                 }
             }
             return $user;
         }
+    }
+    
+    function UpdateSportBD($id, $sport, $level) { // anyade deporte a un usuario existente
+        include 'conexion.php';
+        $sqli = "INSERT INTO usersport (Uid, Sid, Level) VALUES ($id, $sport, $level)";
+        $mysqli->query($sqli) or die($mysqli->error); 
+        
+        include 'cerrar_conexion.php';
+    }
+    
+    function UpdateLevelSportBD($id, $sport, $level) { 
+        include 'conexion.php';
+        $sqli = "UPDATE Usersport SET Level = $level WHERE Uid = $id AND Sid = $sport";
+        $result = $mysqli->query($sqli) or die($mysqli_error);
+        include 'cerrar_conexion.php';
+        
     }
     
 ?>

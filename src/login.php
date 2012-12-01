@@ -9,8 +9,9 @@
        
     include ("User.php");
     $user = new User($nickname);
-    $result= $user->GetLogin($nickname, $password);
-        
+    $cifrado = hash("sha512", $password);
+    $result= $user->GetLogin($nickname, $cifrado);
+    
     if($result != -1) { // si login correcto
         //echo 'Login Correcto!';
         $user->GetUserInfo($nickname);
@@ -19,24 +20,17 @@
             <html>
             <head></head>
             <body>
-            <h3>Usuario: </h3>
-            <p> Nombre:  ', $user->nickname,'<br>
+            <h3>Usuario: ', $user->nickname,' </h3>
+            <p> Ver Perfil:  ', $user->nickname,'<br>
             </p>
-            <p> Mail:  ', $user->mail,'<br>
-            </p>
-            <p> Nivel:  ', $user->level,'<br>
+            <p> Editar Perfil:  ', $user->mail,'<br>
             </p>
             </body>
             </html> '; 
             
-            echo 'Deportes: ';
-            $aux = $user->GetDeportes();
-            for ($i=0; $i < sizeof($aux); ++$i) {
-                if($aux[$i] == 1) echo 'Running ';
-                else if ($aux[$i] == 2) echo 'Ciclimo ';
-                else echo 'Patinaje ';
-                if ($i < (sizeof($aux)-1)) echo ', ';
-            }
+            $string="propietario**1$\$id**".$user->GetNickname();
+            $key="proyectopti";
+            
             echo '
                 <html>
                 <head></head>
@@ -47,6 +41,8 @@
                 <a href="mostrar_zonas.php">Ver todas las zonas</a><br>
                 <a href="insertar_evento.php">Crear Evento</a><br>
                 <a href="mostrar_eventos.php">Ver todos los eventos</a><br>
+                <a href="mostrar_user.php?option='.base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string, MCRYPT_MODE_CBC, md5(md5($key)))).'">Mi perfil</a><br>
+                <a href="editar_user.php?option='.base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string, MCRYPT_MODE_CBC, md5(md5($key)))).'">Editar perfil</a><br>
                 <a href="index.php">Logout</a></td>
                 </body>
                 </html> ';  

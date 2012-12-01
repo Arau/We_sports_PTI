@@ -7,8 +7,8 @@
 
     function CreateZonaBD($name) {
       include"conexion.php";
-      $sql = "INSERT INTO zones (ID, Name) VALUES ('NULL', '$name')";
-      mysql_query($sql) or die(mysql_error());
+      $sqli = "INSERT INTO zones (ID, Name) VALUES ('NULL', '$name')";
+      $mysqli->query($sqli) or die($mysqli->error);
                
       include "cerrar_conexion.php"; 
       return 0;
@@ -17,12 +17,12 @@
     
     function GetZonasDB() {
         include"conexion.php";
-        $result = mysql_query("SELECT * FROM zones") or die (mysql_error()); 
-        $aux = mysql_num_rows($result);
+        $result = $mysqli->query("SELECT * FROM Zones") or die ($mysqli->error); 
+        $aux = $result->num_rows;
         $zonas = array();    
         if ($aux > 0) {
                 $i = 0;
-                while ($res2 =mysql_fetch_assoc($result)) {
+                while ($res2 = $result->fetch_assoc()) {
                     $zonas[$i] = $res2['Name'];
                     ++$i;
                 }
@@ -30,4 +30,33 @@
             include ("cerrar_conexion.php");
             return $zonas;
     } 
+
+    function GetRoutesZones($zone) {
+        include"conexion.php";
+        $result = $mysqli->query("SELECT ID_Route FROM ZonesRoutes WHERE ID_Zone =".$zone) or die ($mysqli->error); 
+        $aux = $result->num_rows;
+        $res = array();    
+        if ($aux > 0) {
+                $i = 0;
+                while ($res2 = $result->fetch_assoc()) {
+                    $res[$i] = $res2['ID_Route'];
+                    ++$i;
+                }
+        }
+        $final_res = array();
+        foreach ($res as $id_value) {
+          $result = $mysqli->query("SELECT Geopoints FROM Routes WHERE ID_Route =".$id_value) or die ($mysqli->error);
+          $aux = $result->num_rows;
+          if ($aux > 0) {
+                $i = 0;
+                while ($res2 = $result->fetch_assoc()) {
+                    $final_res[$i] = $res2['Geopoints'];
+                    ++$i;
+                }
+          }
+        }
+
+        include ("cerrar_conexion.php");
+        return $final_res;
+    }
 ?>

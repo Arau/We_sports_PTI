@@ -10,6 +10,7 @@
  *
  * @author Victor
  */
+  include_once ("RutaDbHelper.php");
 class Ruta {
     public $name;
     public $longitud;
@@ -20,22 +21,24 @@ class Ruta {
        
     }
     
-    function CreateRuta($name, $longitud, $desnivel, $dificultad) {
-        include_once ("RutaDbHelper.php");
-        $result = CreateRutaBD($name, $longitud, $desnivel, $dificultad);
+	function CreateRuta($name, $owner, $longitude, $difficulty, $time, $geopoints, $sport) {
+       
+        $result = CreateRutaBD($name, $longitude, $sport, $difficulty, $owner, $time, $geopoints);
             if ($result != -1) return 1;
             else return -1;
     }
+	
+
     
     function GetRutas() {
-            include_once ("RutaDbHelper.php");
+            
             $info = array();
             $info= GetRutasDB();
             return $info;     
     }
     
     function GetRutaInfo($name) {
-            include_once ("RutaDbHelper.php");
+           
             $info = array();
             $info= GetRutaInfoDB($name);
             $this->name = $info[0];
@@ -49,7 +52,7 @@ class Ruta {
     }
 	
     function GetLongitud() {
-	return $this->longitud;
+		return $this->longitud;
     }
 		
     function GetDesnivel() {
@@ -57,7 +60,7 @@ class Ruta {
     }
     
     function GetRutaID($name) {
-        include ("RutaDbHelper.php");
+    
         $aux = GetRutaID_BD($name);
         return $aux;
     }

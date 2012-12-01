@@ -7,23 +7,22 @@
 function CreateEventoBD($name, $ruta, $descripcion) {
       
       include"conexion.php";
-      $sql = "INSERT INTO events (ID, Name, Route, Description) VALUES ('NULL', '$name', '$ruta', '$descripcion')";
-      mysql_query($sql) or die(mysql_error());
+      $sqli = "INSERT INTO events (ID, Name, Route, Description) VALUES ('NULL', '$name', '$ruta', '$descripcion')";
+      $mysqli->query($sqli) or die($mysqli->error);
                
       include "cerrar_conexion.php"; 
       return 0;
    }
    
    function GetEventoInfoDB($name) {
-        
         include_once "Evento.php";
         $evento = array();
         
         include"conexion.php";
-        $result = mysql_query("SELECT * FROM events WHERE Name = '$name'") or die (mysql_error()); 
-        $aux = mysql_num_rows($result);
+        $result = $mysqli->query("SELECT * FROM events WHERE Name = '$name'") or die ($mysqli->error); 
+        $aux = $result->num_rows();
         if ($aux == 1){
-            $res = mysql_fetch_assoc($result);
+            $res = $result->fetch_assoc();
             $evento[0] =$res['Name'];
             $evento[1] = $res['Route'];
             $evento[2] = $res['Description'];
@@ -33,12 +32,12 @@ function CreateEventoBD($name, $ruta, $descripcion) {
     
     function GetEventosDB() {
         include"conexion.php";
-        $result = mysql_query("SELECT * FROM events") or die (mysql_error()); 
-        $aux = mysql_num_rows($result);
+        $result = $mysqli->query("SELECT * FROM events") or die ($mysqli_error); 
+        $aux = $result->num_rows;
         $evento = array();    
         if ($aux > 0) {
                 $i = 0;
-                while ($res2 =mysql_fetch_assoc($result)) {
+                while ($res2 = $result->fetch_assoc()) {
                     $evento[$i] = $res2['Name'];
                     ++$i;
                 }

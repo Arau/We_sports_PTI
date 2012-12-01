@@ -1,5 +1,7 @@
 <?php
-echo "<html>
+echo "
+	<!DOCTYPE html>
+	<html>
 	<head>
 		<script src='http://code.jquery.com/jquery-latest.js'></script>
 
@@ -11,5 +13,19 @@ echo "<html>
   		<script src='../js/utils.js'></script>
 		<link href='../css/ownCSS.css' rel='stylesheet'>
 
+		<meta name='viewport' content='initial-scale=1.0, user-scalable=no' />
+		<script type='text/javascript'
+    	  	src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBOeWT4oSjsadOayNzTdVyQkbmAO48qiCU&sensor=false'>
+  	  	</script>
 	</head>";	
+
+/*
+<li onclick="toggleActive(this,1)"><a style="color:#f5f5f5" href="#"> <?php echo "$zones[0]"?> > </a></li>
+<li onclick="toggleActive(this,2)"><a style="color:#f5f5f5" href="#"> <?php echo "$zones[1]"?> </a></li>
+<li onclick="toggleActive(this,3)"><a style="color:#f5f5f5" href="#"> <?php echo "$zones[2]"?></a></li>  
+*/
 ?>
+
+
+
+
