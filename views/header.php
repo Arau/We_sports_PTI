@@ -17,6 +17,33 @@ echo "
 		<script type='text/javascript'
     	  	src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBOeWT4oSjsadOayNzTdVyQkbmAO48qiCU&sensor=false'>
   	  	</script>
+  	  	<style type='text/css'>
+            body, html {
+                height: 100%;
+                overflow: hidden;
+            }
+
+            .navbar-inner {
+                height: 40px;
+            }
+
+            .scrollable {
+                height: 100%;
+                overflow: auto;
+            }
+
+            .max-height {
+                height: 100%;
+            }
+
+            .no-overflow {
+                overflow: hidden;
+            }
+
+            .pad40-top {
+                padding-top: 40px;
+            }
+    	</style>
 	</head>";	
 
 /*

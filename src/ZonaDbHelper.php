@@ -32,31 +32,35 @@
     } 
 
     function GetRoutesZones($zone) {
-        include"conexion.php";
-        $result = $mysqli->query("SELECT ID_Route FROM ZonesRoutes WHERE ID_Zone =".$zone) or die ($mysqli->error); 
-        $aux = $result->num_rows;
+        include"conexion.php"; 
+        $sql=" SELECT `ID_Route` FROM `ZonesRoutes` WHERE `ID_Zone` =".$zone;              
+        $result = $mysqli->query($sql) or die ($mysqli->error); 
+        $aux = $result->num_rows;        
         $res = array();    
         if ($aux > 0) {
-                $i = 0;
-                while ($res2 = $result->fetch_assoc()) {
-                    $res[$i] = $res2['ID_Route'];
+                $i = 0;                
+                while ($i < $aux) {                    
+                    $res2 = $result->fetch_assoc();                    
+                    $res[$i] = $res2["ID_Route"];
                     ++$i;
                 }
-        }
-        $final_res = array();
+        }        
+       
+        $final_res = array();        
         foreach ($res as $id_value) {
-          $result = $mysqli->query("SELECT Geopoints FROM Routes WHERE ID_Route =".$id_value) or die ($mysqli->error);
-          $aux = $result->num_rows;
-          if ($aux > 0) {
+            $sql = "SELECT Geopoints FROM Routes WHERE ID =".$id_value;
+            
+            $result = $mysqli->query($sql) or die ($mysqli->error);
+            $aux = $result->num_rows;
+            if ($aux > 0) {
                 $i = 0;
-                while ($res2 = $result->fetch_assoc()) {
+                while ($res2 = $result->fetch_assoc()) {                    
                     $final_res[$i] = $res2['Geopoints'];
                     ++$i;
                 }
-          }
-        }
-
-        include ("cerrar_conexion.php");
+            }
+        }        
+        include ("cerrar_conexion.php");        
         return $final_res;
     }
 ?>

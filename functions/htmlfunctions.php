@@ -1,17 +1,15 @@
 <?php
  
-function print_loggin_layout($log) {	
-		
+function print_loggin_layout($log) {		
 	if (isset($_SESSION['logged']) and $_SESSION['logged'] == 1) {
 		$user = $_SESSION['user'];	
 		$layout = '
-				<li style="color:green"><b>'.$user.'</b></li>				
-				<li class="divider-vertical"></li>				
+				<li style="color:#00aa00; font-size:17px;margin-right:35px;">'.$user.'</li>							
+				<li onclick="logout()" class="btn btn-small btn-info" style="margin-top:-4px; margin-right:10px;"> Logout </li>
 				';
 	}	
 	else {		  			
-		$open = array('','');
-		var_dump($log);
+		$open = array('','');		
 		if ($log == 1) {
 			$open[0] = ' open';
 			$open[1] = '<span style="color:red"> Fail login </span>';
@@ -111,7 +109,7 @@ function print_loggin_layout($log) {
        			<button class="btn btn-small btn-success dropdown-toggle" data-toggle="dropdown">Sign In <strong class="caret"></strong></button>
                 <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px">
 
-	                <form action="./functions/login.php" method="post" accept-charset="UTF-8">
+	                <form action="/functions/login.php" method="post" accept-charset="UTF-8">
     	                <input id="user_username" style="margin-bottom: 15px; height:30px;" type="text" name="user[username]" size="30" placeholder="User"  />
           	        	<input id="user_password" style="margin-bottom: 15px; height:30px;" type="password" name="user[password]" size="30" placeholder="Password" />
             	        '.$open[1].'
@@ -215,7 +213,8 @@ function navbar($id) {
 	                    </div><!--/.nav-collapse -->  
 	                </div><!--/.container-fluid -->   
 	            </div><!--/.navbar-inner -->
-	        </div><!--/.navbar navbar-inverse -->';
+	        </div><!--/.navbar navbar-inverse -->
+	        </div>';
 
 		echo $navBars;
 	
@@ -227,18 +226,58 @@ function getZones() {
 	return $zones;
 }
 
-function getGeoPoints($zone) {	
-	$geopoints = getRoutesZones();
+function getRoutes() {
+	require_once("../src/Ruta.php");
+	$ruta = new Ruta;
+	$routes = $ruta->getRutas();
+	return $routes;
+}
+
+function deparsingGeoPoints($geopoints) {
+	$geos = array();
+	foreach ($geopoints as $value) {
+		$aux = explode(',',$value);				
+		$i = 0;
+		foreach ($aux as $key => $value) {
+			if ($value != "") {
+				$val = floatval($value)/1000000;
+				if (intval($key)%2 == 0) {
+					$geos[$i]['lat'] = $val;
+				}
+				else {
+					$geos[$i]['long'] = $val;			
+					++$i;
+				}
+			}
+		}
+	}	
+	return $geos;
+}
+
+function getMiddleGeoPoint($zone) {	
+	require_once("../src/ZonaDbHelper.php");
+	$geopoints = getRoutesZones($zone);
 	$geos = deparsingGeoPoints($geopoints);
-	$lat = 0;$llong = 0; $i = 0;
-	foreach ($geos as $point) {
-		$lat += $geos[$point['lat']];
-		$lat += $geos[$point['long']];
+	$lat = 0;$long = 0; $i = 0;
+	foreach ($geos as $point) {		
+		$lat += $point['lat'];
+		$long += $point['long'];
 		$i++;
 	}
-	$result = array("lat"  => $lat/$i,
-					"long" => $long/$i);
+	$result = array("lat" => 41.38912, "long" => 2.1672);
+	if ($i != 0) {
+		$result = array("lat"  => $lat/$i,
+						"long" => $long/$i);
+	}	
 	return $result;
+}
+
+function getGeosOfRoute($route) {
+	require_once("../src/RutaDbHelper.php");
+	$id = GetRutaID_BD($route);
+	$geopointsDB = GetGeoPoints_BD($id);
+	$geos = deparsingGeoPoints($geopointsDB);	
+	return $geos;
 }
 
 ?>

@@ -35,7 +35,7 @@
     
     function GetRutasDB() {
         include"conexion.php";
-        $result = $mysqli->query("SELECT * FROM routes") or die ($mysqli->error()); 
+        $result = $mysqli->query("SELECT * FROM Routes") or die ($mysqli->error()); 
         $aux = $result->num_rows;
         $ruta = array();    
         if ($aux > 0) {
@@ -52,12 +52,31 @@
     function GetRutaID_BD($name) {
         include"conexion.php";
         $aux;
-        $result = $mysqli->query("SELECT ID FROM routes WHERE Name='$name'") or die ($mysqli->error);
+        $result = $mysqli->query("SELECT ID FROM Routes WHERE Name='$name'") or die ($mysqli->error);
         while ($res2 =  $result->fetch_assoc()) {
             $aux = $res2['ID'];
         }
         
         return $aux;
+    }
+
+    function GetGeoPoints_BD($id) {
+        include"conexion.php"; 
+        $sql=" SELECT `Geopoints` FROM `Routes` WHERE `ID` =".$id;              
+        $result = $mysqli->query($sql) or die ($mysqli->error); 
+        $aux = $result->num_rows;        
+        $res = array();    
+        if ($aux > 0) {
+                $i = 0;                
+                while ($i < $aux) {                    
+                    $res2 = $result->fetch_assoc();                    
+                    $res[$i] = $res2["Geopoints"];
+                    ++$i;
+                }
+        }        
+       
+        include ("cerrar_conexion.php");        
+        return $res;
     }
 	
      

@@ -32,13 +32,14 @@ function CreateEventoBD($name, $ruta, $descripcion) {
     
     function GetEventosDB() {
         include"conexion.php";
-        $result = $mysqli->query("SELECT * FROM events") or die ($mysqli_error); 
+
+        $result = $mysqli->query("SELECT * FROM Events") or die ($mysqli->error); 
         $aux = $result->num_rows;
         $evento = array();    
         if ($aux > 0) {
                 $i = 0;
                 while ($res2 = $result->fetch_assoc()) {
-                    $evento[$i] = $res2['Name'];
+                    $evento[$i] = $res2;
                     ++$i;
                 }
             }

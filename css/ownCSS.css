@@ -1,7 +1,62 @@
-.main-background {
-	margin-top: -20px; 
+#all {
+	margin-top: 60px; 
 	height:		500px; 
 	background:url('../friendsandsport/background.png'); 
 	background-repeat:no-repeat;
-	background-repeat:repeat-x;
+	background-repeat:repeat-x;	
+}
+
+#user_page {
+	margin-top: 88px; 
+	height:		500px; 		
+}
+
+#userImage {
+	margin-top: 100px;
+	height:150px;
+	width: 150px;
+	background-color: red;
+}
+
+
+.map-canvas { 
+	padding-top: 20px;
+	padding-bottom: 50px;  
+}
+
+#menu_zones {	
+	width:150px; 
+	margin-top:40px;		
+}
+
+#content_menu {
+	
+}
+
+.navbar-inverse .nav .active > a, 
+.navbar-inverse .nav .active > a:hover, 
+.navbar-inverse .nav .active > a:focus 
+{
+	color:white;
+	background-color:#08c;
+}
+
+#owner {
+	float:right;
+	padding-right: 20px;
+	margin-top:-32px;
+}
+
+
+#date {
+	float:right;
+	margin-right: -5px;
+	margin-top:10px;
+}
+
+
+#maplink {
+	float:right;
+	margin-right: -117px;
+	margin-top:10px;
 }

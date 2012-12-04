@@ -3,6 +3,7 @@
 	require_once("header.php");	
 ?>
 
+
 <body>
     <?php 
     	require_once("../functions/htmlfunctions.php");
@@ -12,7 +13,7 @@
     <div class="row-fluid">
     	<div class="span12">
 		    <div id="user_page"> 	    			    	
-		    	<div class="span10 offset1" id="content">
+		    	<div class="span10 offset1" id="content" style="overflow:auto; height:600px;">
 					<div class="container-fluid"> 
 						<div class="row-fluid">
 							<div class="span2" id="left" >									

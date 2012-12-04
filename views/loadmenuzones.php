@@ -10,8 +10,8 @@
 				<?php 
 					$index = 0;
 					foreach ($zones as $zone) {
-						echo '	<li onclick="toggleActive(this,'.$index.')">
-									<a style=" width:150px; border-style:solid; border-width:1px; " href="#">'.$zone.'</a>
+						echo '	<li onclick="toggleActiveZone(this,'.$index.')">
+									<a style="margin-left:10px; width:160px; border-style:solid; border-width:1px; " href="#">'.$zone.'</a>
 							  	</li> ';								  	
 						$index++;
 					}

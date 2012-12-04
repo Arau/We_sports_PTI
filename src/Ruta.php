@@ -30,8 +30,7 @@ class Ruta {
 	
 
     
-    function GetRutas() {
-            
+    function GetRutas() {            
             $info = array();
             $info= GetRutasDB();
             return $info;     
