@@ -1,9 +1,12 @@
 <?php
     if(isset($_GET['option'])){
-        $string=  str_replace("quotesmorequotes", "+", $_GET['option']);
+        $string=  $_GET['option'];
+        echo $string;
+        
         $key="proyectopti";
             $decrypted = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($string), MCRYPT_MODE_CBC, md5(md5($key))), "\0"); ;
             echo $decrypted."<br/>";
+            
             $options=explode("$$", $decrypted); // es vector de 2 posiciones, en cada posicion tiene otro vector de 2 posiciones(p)
             foreach($options as &$val){
                 echo$val."<br/>";
@@ -12,7 +15,10 @@
                 echo "<br/>";
             }
             var_dump($options);
-            $id_user = $options[1][1];
+            $nick = $options[1][1];
+            $id_user =$options[2][1];
+            echo $nick;
+            echo $id_user;
             
             echo '
             <html>
@@ -29,7 +35,7 @@
                     <p>Sport:<br>
                           <SELECT name="form_sport">
                             <option selected>--- Elige tu nuevo Sport ---
-                            <option value = 1>Rnunning</option>
+                            <option value = 1>Running</option>
                             <option value = 2>Ciclismo</option>
                             <option value=3 >Roller</option>
                           </SELECT>

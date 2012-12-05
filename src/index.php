@@ -14,7 +14,6 @@
         <body>
         <a href="login.html"><b>Login</b></a><br>
         <a href="insertar_user.html"><b>Registrarse</b></a><br>
-        <a href="test.html"><b>Test fancy box</b></a><br>
         </body>
         </html>';
     

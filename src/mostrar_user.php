@@ -1,8 +1,12 @@
 <?php
-$string=$_GET['option'];
-$key="proyectopti";
 
-    $decrypted = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($_GET['option']), MCRYPT_MODE_CBC, md5(md5($key))), "\0"); ;
+    //$string=  str_replace("quotesmorequotes", "+", $_GET['option']);
+    $string= $_GET['option'];
+    $key="proyectopti";
+    echo $string;
+    
+    $decrypted = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($string), MCRYPT_MODE_CBC, md5(md5($key))), "\0"); ;
+    echo "-->",$decrypted;
     $options=explode("$$", $decrypted); // es vector de 2 posiciones, en cada posicion tiene otro vector de 2 posiciones(p)
     foreach($options as &$val){
         echo$val."<br/>";
@@ -29,22 +33,36 @@ $key="proyectopti";
             </body>
             </html> ';
     
-    $string="propietario**1$\$id**".$user->GetID();
-        
-    $decrypted = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string, MCRYPT_MODE_CBC, md5(md5($key))))), MCRYPT_MODE_CBC, md5(md5($key))), "\0")."<br/>";
-    echo 'Deportes:  <a href="add_sport.php?option='.str_replace('+','quotesmorequotes',base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string, MCRYPT_MODE_CBC, md5(md5($key))))).'">Add sport</a><br>';
+    //$string="propietario**1$\$id**".$user->GetID();
+    
+    $string = urlencode($string);
+    
+    //$decrypted = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string, MCRYPT_MODE_CBC, md5(md5($key))))), MCRYPT_MODE_CBC, md5(md5($key))), "\0")."<br/>";
+    echo 'Deportes:  <a href="add_sport.php?option='.$string.'">Add sport</a><br>';
+    
             $aux = $user->GetDeportes();
+            
             for ($i=0; $i < sizeof($aux); ++$i) {
-                echo '<br>';
-                if($aux[$i][0] == 1) echo 'Running';
+                $string2="propietario**1$\$id**".$user->GetID()."$\$idsport**".$aux[$i][0]."$\$level**".$aux[$i][1];
+                //echo $string2.'<br>';
+                if($aux[$i][0] == 1) echo 'Running ';
                 else if ($aux[$i][0] == 2) echo 'Ciclimo ';
                 else if ($aux[$i][0] == 3) echo 'Patinaje ';
                 echo ',  ';
-                if($aux[$i][1] == 1) echo ' Nivel: Principiante';
-                else if($aux[$i][1] == 2) echo ' Nivel: Medio';
-                else if($aux[$i][1] == 3) ' Nivel: Profesional';
+                if($aux[$i][1] == 1) {
+                    echo ' Nivel: Principiante    ';
+                    echo '<a href="editar_level.php?option='.urlencode(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string2, MCRYPT_MODE_CBC, md5(md5($key))))).'">Edit Nivel</a><br>';
+                }
+                else if($aux[$i][1] == 2) {
+                    echo ' Nivel: Medio    ';
+                    echo '<a href="editar_level.php?option='.urlencode(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string2, MCRYPT_MODE_CBC, md5(md5($key))))).'">Edit Nivel</a><br>';
+                }
+                else if($aux[$i][1] == 3) {
+                    echo ' Nivel: Profesional    ';
+                    echo '<a href="editar_level.php?option='.urlencode(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string2, MCRYPT_MODE_CBC, md5(md5($key))))).'">Edit Nivel</a><br>';
+                }
                 
-                echo '<a href="actualizar_level.php">Edit</a></td>';
+                
             }
             
 ?>

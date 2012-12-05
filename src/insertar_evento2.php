@@ -4,9 +4,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-    $name = $_POST["name"];
+    $name_event = $_POST["name"];
     $name_ruta = $_POST["form_ruta"];
-    $descripcion = $_POST["descripcion"];
+    $sport = $_POST["sport"];
+    $description = $_POST["descripcion"];
+    $departure = $_POST["departure"];
+    $distcheckpoints = $_POST["distcheckpoints"];
+    
+    //---------------------Coger propietario de la sesion ---------------
+    $owner = 1;
+    
+    //--------------------------------------------------------
+    
     
     include ("Ruta.php");
     $ruta = new Ruta();
@@ -15,7 +24,7 @@
     include("Evento.php");
     $evento = new Evento();
     
-    $res = $evento->CreateEvento($name, $aux, $descripcion);
+    $res = $evento->CreateEvento($name_event, $aux, $sport, $owner, $description, $departure, $distcheckpoints);
     echo ' <html>
             <head></head>
             <body>

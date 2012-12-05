@@ -27,9 +27,22 @@
                 </SELECT>
             
           </p>
+          
+          <p>Sport(1/2/3):<br>
+            <input type="text" name="sport">
+          </p>
           <p>Descripcion del evento:<br>
             <input type="text" name="descripcion">
           </p>
+          
+          <p>Fecha y hora (year-month-day h:m:s)<br>
+            <input type="text" name="departure">
+          </p>
+          
+          <p>Distancia entre checkpoints(metros):<br>
+            <input type="text" name="distcheckpoints">
+          </p>
+          
           <p>
             <input type="submit" name="Submit" value="Enviar">
           </p>

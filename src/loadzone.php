@@ -1,7 +1,7 @@
 <?php
 	require_once("../functions/htmlfunctions.php");
 	$zone = $_GET['zone'];
-	$point = getGeoPoints($zone);
+	$point = getMiddleGeoPoint($zone);
 	
 
 	header("Content-type: text/xml; charset=utf-8");		

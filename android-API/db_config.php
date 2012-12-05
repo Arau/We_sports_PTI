@@ -1,11 +1,5 @@
-<?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */		
-
-	$dbconfig["db_server"] = "db437267467.db.1and1.com";
+<?php		
+		$dbconfig["db_server"] = "db437267467.db.1and1.com";
 		$dbconfig["db_port"] = "3306";
 		$dbconfig["db_username"] = "dbo437267467";
 		$dbconfig["db_password"] = "proyectopti";
@@ -18,6 +12,4 @@
 			printf("Connect failed: %s\n", $mysqli->connect_error);
 		exit();
 		}
-
-             
 ?>

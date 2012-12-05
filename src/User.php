@@ -13,13 +13,9 @@
     class User {
         public $nickname;
         public $deportes = array(); // array de deporte_asignado con su nivel --> (running, roller, cciclismo)
-        public $zonas = array(); 
-        //public $infoUser = array();
         public $mail;
-	public $level;
-        private $id;
-	//private $userDbHelper = new UserDbHelper();
-				
+	private $id;
+		
 	        
         /*function __construct($nickname) {
             $this->nickname = $nickname;
@@ -87,6 +83,18 @@
         
         function GetID() {
 		return $this->id;
+	}
+        
+        function GetID_name($nickname) {
+            include_once ("UserDbHelper.php");
+            $res = GetId_name_BD($nickname);
+            return $res;
+	}
+        
+        function GetName_Id($id_user) {
+            include_once ("UserDbHelper.php");
+            $res = GetName_Id_BD($id_user);
+            return $res;
 	}
     }
 		

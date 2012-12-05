@@ -7,7 +7,7 @@
 
     function CreateZonaBD($name) {
       include"conexion.php";
-      $sqli = "INSERT INTO zones (ID, Name) VALUES ('NULL', '$name')";
+      $sqli = "INSERT INTO Zones (ID, Name) VALUES ('NULL', '$name')";
       $mysqli->query($sqli) or die($mysqli->error);
                
       include "cerrar_conexion.php"; 
@@ -30,7 +30,7 @@
             include ("cerrar_conexion.php");
             return $zonas;
     } 
-
+    
     function GetRoutesZones($zone) {
         include"conexion.php"; 
         $sql=" SELECT `ID_Route` FROM `ZonesRoutes` WHERE `ID_Zone` =".$zone;              

@@ -6,12 +6,17 @@
  */
     $name = $_POST["name"];
     $longitud = $_POST["longitud"];
-    $desnivel = $_POST["desnivel"];
+    $sport = $_POST["sport"];
     $dificultad = $_POST["dificultad"];
-     
+    $owner = $_POST["owner"];
+    $time_estimado = $_POST["time"];
+    $geopoints = $_POST["geopoints"];
+    $fecha = $_POST["fecha"];
+    
+    
     include("Ruta.php");
     $ruta = new Ruta();
-    $res = $ruta->CreateRuta($name, $longitud, $desnivel, $dificultad);
+    $res = $ruta->CreateRuta($name, $owner, $longitud, $dificultad, $time_estimado, $geopoints, $sport, $fecha);
     echo ' <html>
             <head></head>
             <body>
