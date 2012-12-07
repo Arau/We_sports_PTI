@@ -4,30 +4,37 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-    function CreateRutaBD($name, $longitude, $sport, $difficulty, $owner, $time, $geopoints, $date) {
-      
+    function CreateRutaBD($name, $longitude, $sport, $difficulty, $owner, $time, $geopoints) {
+        include_once ("User.php");
+        $aux_user = new User();
+        $id_user = $aux_user->GetID_name($owner);
+        
       include"conexion.php";
       
       $sqli = "SELECT COUNT(*) as total FROM Routes WHERE Name = '$name'";        
         $result = $mysqli->query($sqli) or die($mysqli_error);        
         $fetch = $result->fetch_assoc();
+        
         $existe = intval($fetch["total"]); 
         
         try{   
 
             if($existe == 0) { // si la ruta no existe la guardamos en routes
-                $sqli = "INSERT INTO Routes (`ID`, `Name`, `Longitud`, `Sport`, `Dificultad`, `Propietario`, `Time`, `Geopoints`) VALUES (NULL, '$name', '$longitude', '$sport', '$difficulty', '$owner', '$time', '$geopoints' )";
+                $sqli = "INSERT INTO Routes (`ID`, `Name`, `Longitud`, `Sport`, `Dificultad`, `Propietario`, `Time`, `Geopoints`) VALUES (NULL, '$name', '$longitude', '$sport', '$difficulty', '$id_user', '$time', '$geopoints' )";
                 $mysqli->query($sqli) or die($mysqli->error);
                 $ultimo_id_ruta = $mysqli->insert_id;
                                
             }
+            else { // si la ruta ya existe cogemos su ID de la BD
+                $sqli = "SELECT ID FROM  Routes WHERE Name = '$name'";
+                $result = $mysqli->query($sqli) or die($mysqli->error);
+                $res = $result->fetch_assoc();
+                $ultimo_id_ruta =$res['ID'];
+            }
             // exista o no exista la ruta sempre la metemos en userroute
             include_once ("UserRoute.php");
             $aux_user_route = new UserRoute();
-            
-            //--------- Coger ID de Uuario de la sesion -------
-            $id_user = 5; // de momento le metemos este ID
-            $aux = $aux_user_route->CreateRutaUser($id_user, $ultimo_id_ruta, $date, $time);
+            $aux = $aux_user_route->CreateRutaUser($id_user, $ultimo_id_ruta, $time);
                    
         }catch(Exception $error){}
          

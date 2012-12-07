@@ -7,18 +7,15 @@
 
 <body>
     <?php 
-		require_once("navBar.php")				
+    	require_once("functions/htmlfunctions.php");
+		navbar("index");	
 	?>
 
     <div class="row-fluid">
-	    <div style="margin-top: -20px; 
-					height:		500px; 
-					background:url('./friendsandsport/background.png'); 
-					background-repeat:no-repeat;
-					background-repeat:repeat-x;"> 
-	    </div>
-		<div class="span2" > </div>
-		<div class="span2" > 
+
+	    <div id="all">  </div>
+		
+		<div class="span2 offset2" > 
 			<div style="
 					margin-top: -400px; 
 					margin-left: -50px;
@@ -27,8 +24,8 @@
 					background:url('./friendsandsport/cycleing.png'); ">
 			</div>
 	    </div>
-	    <div class="span1" > </div>
-	    <div class="span2" > 
+	    
+	    <div class="span2 offset1" > 
 			<div style="margin-top: -400px; 
 					height:		180px; 
 					width:		130px; 

@@ -5,32 +5,25 @@
 //var_dump($points);
 
 	header("Content-type: text/xml; charset=utf-8");		
-
-	$xmlGeo = "";	
-	$lat = ""; $long = ""; $i = 0;
-	foreach ($points as $key => $value) {		
-		if ($value != "") {
-			if (intval($key)%2 == 0) 	
-				$lat = $points[$i]['lat'];			
-			else { 						
-				$long = $points[$i]['long'];
-				$i++;
-			}
-		}
-		$xmlGeo .= "
-					<geopoint>
-						<lat>
-							".$lat."
-						</lat>
-						<long>
-							".$long."
-						</long>
-					</geopoint>";
-	}
-
 	echo '
-		<response>
-			'.$xmlGeo.'			
-		</reponse>';
+		<response>';		
+	$i = 0;
+	for (; $i < sizeof($points); ++$i) {				
+		echo "
+			<geopoint>
+				<lat>
+					".$points[$i]['lat']."
+				</lat>
+				<long>
+					".$points[$i]['long']."
+				</long>
+			</geopoint>";		
+	}
+	
+	echo '
+		<size>'.$i.' </size>';
+
+	echo'		
+		</response>';
 	
 ?>

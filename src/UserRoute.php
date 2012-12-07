@@ -21,9 +21,9 @@ class UserRoute {
        
     }
     
-    function CreateRutaUser($id_user, $id_ruta, $date, $end_time) {
+    function CreateRutaUser($id_user, $id_ruta,$end_time) {
        include_once ("UserRouteDbHelper.php");
-            $result = CreateRutaUserBD($id_user, $id_ruta, $date, $end_time);
+            $result = CreateRutaUserBD($id_user, $id_ruta,$end_time);
             if ($result != -1) return $result; // retorno id del userruta
             else return -1;
     }
@@ -33,6 +33,17 @@ class UserRoute {
             $info = array();
             $info= GetRutasUserDB($id_user);
             return $info;     
+    }
+    
+    function GetRutasUserMovil($name_user) {
+        include_once ("User.php");
+        $aux_user = new User();
+        $id_user = $aux_user->GetID_name($name_user);
+        
+        include_once ("UserRouteDbHelper.php");
+        $info = array();
+        $info= GetRutasUserDB($id_user);
+        return $info;     
     }
     
     function GetRutaID($userroute_id) {

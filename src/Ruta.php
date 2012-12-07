@@ -24,9 +24,9 @@ class Ruta {
     }
     
      
-    function CreateRuta($name, $owner, $longitude, $difficulty, $time, $geopoints, $sport, $date) { //
+    function CreateRuta($name, $owner, $longitude, $difficulty, $time, $geopoints, $sport) { //
         include_once ("RutaDbHelper.php");
-        $result = CreateRutaBD($name, $longitude, $sport, $difficulty, $owner, $time, $geopoints, $date);
+        $result = CreateRutaBD($name, $longitude, $sport, $difficulty, $owner, $time, $geopoints);
         
             if ($result != -1) return 1;
             else return -1;

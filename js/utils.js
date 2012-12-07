@@ -1,3 +1,10 @@
+function showMapModal(id,route) {	
+	document.getElementById(id).className = "";
+	document.getElementById(id).className = "modal";
+	initialize_routeModal(route,id);
+}
+
+
 
 function modal() {
 	$('.modal').appendTo($("body"));
@@ -8,18 +15,8 @@ function closeRegister() {
 }
 
 function logout() {
-	var xmlhttp;
-	if (window.XMLHttpRequest) {
-	  	// code for IE7+, Firefox, Chrome, Opera, Safari
-	  	xmlhttp = new XMLHttpRequest();
-	}
-	else {
-	  // code for IE6, IE5
-		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-	}
+	window.location ="../functions/logout.php";			
 	
-	xmlhttp.open("GET","../functions/logout.php",true);			
-	xmlhttp.send();
 }
 
 function submitRegister() {
@@ -33,7 +30,8 @@ function submitRegister() {
 	defineSportsAndLevels(sport);
 	//validateRegister();	
 	ajaxSubmit(name,mail,pwd,sport);
-
+	$("#myModal").modal("hide");
+	showValidateLogin();
 }
 
 function defineSportsAndLevels(sports) {	
@@ -351,7 +349,7 @@ function initialize_zone(zone) {
 }
 
 
-function initialize_route(route) {	
+function initialize_route(route) {		
 	var xmlhttp;
 	if (window.XMLHttpRequest) {
 	  	// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -367,9 +365,12 @@ function initialize_route(route) {
 
 	var xmlDoc= xmlhttp.responseXML;
 //foreach-- Retornar un XML amb tots els geopoints.
-	var lat= xmlDoc.getElementsByTagName("lat");
-	var lon= xmlDoc.getElementsByTagName("long");
-	var geo= xmlDoc.getElementsByTagName("geopoint");
+	var geo = xmlDoc.getElementsByTagName("geopoint")[0].childNodes[0].nodeValue;
+
+//console.log(geo);
+	var lat = xmlDoc.getElementsByTagName("lat");
+	var lon = xmlDoc.getElementsByTagName("long");
+	var size = (xmlDoc.getElementsByTagName("size")[0].childNodes[0].nodeValue)*1;
 
 
 
@@ -379,11 +380,97 @@ function initialize_route(route) {
       zoom: 12,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
+
+
+
     var map = new google.maps.Map(document.getElementById("map_route"),
         mapOptions);
-    
+
+
+    for (var i = 1; i < size; ++i) {
+
+	 	var latlng1 = new google.maps.LatLng(lat[i-1].childNodes[0].nodeValue, lon[i-1].childNodes[0].nodeValue);
+	 	var latlng2 = new google.maps.LatLng(lat[i].childNodes[0].nodeValue, lon[i].childNodes[0].nodeValue);
+	    var polyline = new google.maps.Polyline(
+						{       
+							path:[latlng1,latlng2], 
+							map:map,
+							strokeColor:"#ff1c41",
+							strokeOpacity:0.8,
+							strokeWeight:5
+
+						});										
+	}
+
     document.getElementById("map_route").style.height = "500px";    
 }
+
+
+function initialize_routeModal(route,id) {		
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+	  	// code for IE7+, Firefox, Chrome, Opera, Safari
+	  	xmlhttp = new XMLHttpRequest();
+	}
+	else {
+	  // code for IE6, IE5
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+	xmlhttp.onreadystatechange=function() {
+	  	if (xmlhttp.readyState==4 && xmlhttp.status==200)  {
+  			var xmlDoc= xmlhttp.responseXML;			
+			var geo = xmlDoc.getElementsByTagName("geopoint")[0].childNodes[0].nodeValue;		
+			var lat = xmlDoc.getElementsByTagName("lat");
+			var lon = xmlDoc.getElementsByTagName("long");
+			var size = (xmlDoc.getElementsByTagName("size")[0].childNodes[0].nodeValue)*1;
+	    	var mapOptions = {
+		      center: new google.maps.LatLng(lat[0].childNodes[0].nodeValue, lon[0].childNodes[0].nodeValue),
+		      zoom: 12,
+		      mapTypeId: google.maps.MapTypeId.ROADMAP
+		    };
+
+		    var map = new google.maps.Map(document.getElementById("map_modal"+id),
+		        mapOptions);
+
+
+		    for (var i = 1; i < size; ++i) {
+
+			 	var latlng1 = new google.maps.LatLng(lat[i-1].childNodes[0].nodeValue, lon[i-1].childNodes[0].nodeValue);
+			 	var latlng2 = new google.maps.LatLng(lat[i].childNodes[0].nodeValue, lon[i].childNodes[0].nodeValue);
+			    var polyline = new google.maps.Polyline(
+								{       
+									path:[latlng1,latlng2], 
+									map:map,
+									strokeColor:"#ff1c41",
+									strokeOpacity:0.8,
+									strokeWeight:5
+
+								});										
+			}
+
+    		document.getElementById("map_modal"+id).style.height = "400px";    
+		}
+	} 
+	
+	xmlhttp.open("GET","loadroute.php?route="+route,true);			
+	xmlhttp.send();
+
+
+
+
+
+
+    
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -400,3 +487,4 @@ function initialize() {
 
 }
 
+  

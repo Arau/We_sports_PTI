@@ -9,11 +9,11 @@
     	require_once("../functions/htmlfunctions.php");
 		navbar("user");	
 	?>
-
+	<body id="body_user">	
     <div class="row-fluid">
     	<div class="span12">
 		    <div id="user_page"> 	    			    	
-		    	<div class="span10 offset1" id="content" style="overflow:auto; height:600px;">
+		    	<div class="span10 offset1" id="content">
 					<div class="container-fluid"> 
 						<div class="row-fluid">
 							<div class="span2" id="left" >									
@@ -32,6 +32,5 @@
 		    </div>
 	    </div>
 	</div>
-
 </body>
 </html>

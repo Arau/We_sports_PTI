@@ -18,8 +18,8 @@
                 
       for ($i=0; $i < sizeof($deportes); ++$i) { // buscamos el ID de usuario en la tabla de usersport
           if ($deportes[$i][0] == "on") {
-            if($deportes[$i][1] == "Principiante") $level = 1;
-            else if ($deportes[$i][1] == "Medio") $level = 2;
+            if($deportes[$i][1] == 1) $level = 1;
+            else if ($deportes[$i][1] == 2) $level = 2;
             else $level = 3;
           
             $sqli2 = "INSERT INTO UserSport (Uid, Sid, Level) VALUES ($aux, ($i+1), $level)";
@@ -78,17 +78,34 @@
                 }
             }
             include "cerrar_conexion.php"; 
+			
             return $user;
         }
     }
     
     function UpdateSportBD($id, $sport, $level) { // anyade deporte a un usuario existente
-        include 'conexion.php';
-        $sqli = "INSERT INTO UserSport (Uid, Sid, Level) VALUES ($id, $sport, $level)";
-        $mysqli->query($sqli) or die($mysqli->error); 
+        include"conexion.php";
+        $sqli = "SELECT COUNT(*) as total FROM UserSport WHERE Uid = '$id' AND Sid = '$sport'";        
+        $result = $mysqli->query($sqli) or die($mysqli_error);        
+        $fetch = $result->fetch_assoc();
         
+        $existe = intval($fetch["total"]); 
         include 'cerrar_conexion.php';
+        try{   
+
+            if($existe == 1) return -2;
+            else {      
+                include 'conexion.php';
+                $sqli = "INSERT INTO UserSport (Uid, Sid, Level) VALUES ($id, $sport, $level)";
+                $mysqli->query($sqli) or die($mysqli->error); 
+        
+                include 'cerrar_conexion.php';
+            }
+        }
+        catch(Exception $error){}
+        return 0;
     }
+    
     
     function UpdateLevelSportBD($id, $sport, $level) { 
         include 'conexion.php';

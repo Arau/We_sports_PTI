@@ -56,6 +56,7 @@
                 ++$j;
                 $i = $i+2;
             }
+			return $info;
             
         }
 	
